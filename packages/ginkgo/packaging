@@ -1,0 +1,2 @@
+set -e
+cp ginkgo/ginkgo ${BOSH_INSTALL_TARGET} --preserve
