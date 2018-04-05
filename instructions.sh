@@ -7,13 +7,24 @@ bosh add-blob ~/go/bin/ginkgo ginkgo
 bosh generate-package ginkgo
 tree packages
 cat <<"EOT" >> packages/ginkgo/packaging
-cp ginkgo/ginkgo ${BOSH_INSTALL_TARGET} --preserve
+cp ginkgo ${BOSH_INSTALL_TARGET} --preserve
 EOT
 cat <<EOT > packages/ginkgo/spec
 ---
 name: ginkgo
 
 files:
-  - ginkgo/ginkgo
+  - ginkgo
 
 EOT
+cat <<EOT > config/final.yml
+---
+name: ginkgo-package
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/test-blobs
+
+EOT
+bosh upload-blobs
+
