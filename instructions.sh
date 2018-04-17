@@ -6,25 +6,8 @@ go get github.com/onsi/ginkgo/ginkgo
 bosh add-blob ~/go/bin/ginkgo ginkgo
 bosh generate-package ginkgo
 tree packages
-cat <<"EOT" >> packages/ginkgo/packaging
-cp ginkgo ${BOSH_INSTALL_TARGET} --preserve
-EOT
-cat <<EOT > packages/ginkgo/spec
----
-name: ginkgo
-
-files:
-  - ginkgo
-
-EOT
-cat <<EOT > config/final.yml
----
-name: ginkgo-package
-blobstore:
-  provider: local
-  options:
-    blobstore_path: /tmp/test-blobs
-
-EOT
+echo -e "cp ginkgo ${BOSH_INSTALL_TARGET} --preserve" >> packages/ginkgo/packaging
+echo -e "--- \nname: ginkgo \nfiles: \n\t- ginkgo" > packages/ginkgo/spec
+echo -e "--- \nname: ginkgo-package \nblobstore: \n\tprovider: local \n\toptions: \n\t\tblobstore_path: /tmp/test-blobs" > config/final.yml
 bosh upload-blobs
 
